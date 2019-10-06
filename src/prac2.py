@@ -2,13 +2,16 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import MCI 
 
-sr = 320
-t = np.linspace(0, 1, sr)
-s = np.sin(2*np.pi*12*t)+np.sin(2*np.pi*17.5*t)
-
+s = np.loadtxt('C:\\Users\\Mouzhroq\\Desktop\\Python\\MCIB-19-P\\data\\Practica 1\\Registro1Act1.txt')
 fig, ax = plt.subplots()
-ax.plot(t, s)
-
+ax.plot(s[:,0], s[:,2])
 plt.show(block=False)
 
-MCI.FFT(s)
+fig = MCI.FFT(s[:,2])
+fig.savefig('C:\\Users\\Mouzhroq\\Desktop\\Python\\MCIB-19-P\\images\\Practica 2\\pruebaFFT.png')
+
+sr = 60000
+l = 256
+tr = 25
+fig = MCI.psd(s[:,2], l, tr, sr)
+fig.savefig('C:\\Users\\Mouzhroq\\Desktop\\Python\\MCIB-19-P\\images\\Practica 2\\pruebaPSD.png')
