@@ -20,7 +20,7 @@ def FFT (signal, sr):
     ax2.plot(w[0:len(signal)//2], f3[0:len(f3)//2]); ax2.set(title='FFT con ventana hamming', ylabel='dB')
     ax3.plot(w[0:len(signal)//2], f4[0:len(f4)//2]); ax3.set(title='FFT con ventana blackman', ylabel='dB', xlabel='Frecuencia [Hz]')
 
-    plt.show(block=False)
+    #plt.show(block=False)
     return fig
 
 def psd(s, l, t, sr):
@@ -41,7 +41,7 @@ def filter(a, b, sr):
     w, h = sg.freqz(b, a)
     fig, ax =plt.subplots()
     ax.plot(w*sr/np.pi, 20*np.log10(np.abs(h))); ax.set(title='Respuesta del filtro', xlabel='Frecuencia (Hz)', ylabel='dB')
-    plt.show()
+    #plt.show()
     return fig
 
 def media_movil(s, l, t, time):
