@@ -24,3 +24,6 @@ fig.savefig('C:\\Users\\Mouzhroq\\Desktop\\Python\\MCIB-19-P\\images\\Practica 2
 
 fig = MCI.media_movil(s[:,2], l, tr, s[:,0])
 fig.savefig('C:\\Users\\Mouzhroq\\Desktop\\Python\\MCIB-19-P\\images\\Practica 2\\pruebamedia_movil.png')
+
+fig = MCI.detrend(s[:,2], s[:,0], l)
+fig.savefig('C:\\Users\\Mouzhroq\\Desktop\\Python\\MCIB-19-P\\images\\Practica 2\\pruebadetrend.png')
