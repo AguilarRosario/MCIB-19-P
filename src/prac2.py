@@ -21,3 +21,6 @@ fc = 50
 b, a = sg.butter(10, fc/sr, btype='lowpass')
 fig = MCI.filter(a, b,sr)
 fig.savefig('C:\\Users\\Mouzhroq\\Desktop\\Python\\MCIB-19-P\\images\\Practica 2\\pruebafilter.png')
+
+fig = MCI.media_movil(s[:,2], l, tr, s[:,0])
+fig.savefig('C:\\Users\\Mouzhroq\\Desktop\\Python\\MCIB-19-P\\images\\Practica 2\\pruebamedia_movil.png')
