@@ -88,4 +88,4 @@ def detrend(s, time, l):
     ax0.plot(time, s); ax0.set(title='Señal sin filtrar', ylabel='Voltaje')
     ax1.plot(time, filt); ax1.set(title='Señal filtrada', ylabel='Voltaje', xlabel='Tiempo')
     plt.show()
-    return fig
+    return filt, fig
