@@ -77,10 +77,10 @@ ax0.plot(s0[15000:30000,0], s0[15000:30000,4]); ax0.set(title='Pulso sin filtrar
 ax1.plot(s0[15000:30000,0], Pulsof[15000:30000]); ax1.set(title='Pulso sin filtrar', ylabel='Voltaje', xlabel='Tiempo [min]')
 fig.savefig('C:\\Users\\Mouzhroq\\Desktop\\Python\\MCIB-19-P\\images\\Practica 2\\Pulsofiltrada.png')
 
-ECGdetrend, fig = MCI.detrend(s0[:,2], s0[:,0], 512)
+ECGdetrend, fig = MCI.detrend(s0[:,2], s0[:,0], 256)
 ECGdetrendf = sg.filtfilt(b0, a0, ECGdetrend)
 ECGfilt = sg.filtfilt(b0, a0, s0[:,2])
-ECGfdetrend, fig = MCI.detrend(ECGfilt, s0[:,0], 512)
+ECGfdetrend, fig = MCI.detrend(ECGfilt, s0[:,0], 256)
 fig, (ax0, ax1) = plt.subplots(nrows=2, sharex=True, constrained_layout=True)
 ax0.plot(s0[15000:30000,0], ECGdetrendf[15000:30000]); ax0.set(title='ECG detrended y filtrada', ylabel='Voltaje')
 ax1.plot(s0[15000:30000,0], ECGfdetrend[15000:30000]); ax1.set(title='ECG filtrada y detrended', ylabel='Voltaje', xlabel='Tiempo[min]')
