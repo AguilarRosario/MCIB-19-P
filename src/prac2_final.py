@@ -2,13 +2,18 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import scipy.signal as sg 
 import MCI 
+import os
 
-s0 = np.loadtxt('C:\\Users\\Mouzhroq\\Desktop\\Python\\MCIB-19-P\\data\\Practica 1\\Registro1Act1.txt')
-s1 = np.loadtxt('C:\\Users\\Mouzhroq\\Desktop\\Python\\MCIB-19-P\\data\\Practica 1\\Registro6Act1.txt')
-s2 = np.loadtxt('C:\\Users\\Mouzhroq\\Desktop\\Python\\MCIB-19-P\\data\\Practica 1\\Registro1Act2.txt')
-s3 = np.loadtxt('C:\\Users\\Mouzhroq\\Desktop\\Python\\MCIB-19-P\\data\\Practica 1\\Registro5Act2.txt')
+datapath = os.path.abspath('')
+print(datapath)
+
+s0 = np.loadtxt(datapath+'\\..\\data\\Practica 1\\Registro1Act1.txt')
+s1 = np.loadtxt(datapath+'\\..\\data\\Practica 1\\Registro6Act1.txt')
+s2 = np.loadtxt(datapath+'\\..\\data\\Practica 1\\Registro1Act2.txt')
+s3 = np.loadtxt(datapath+'\\..\\data\\Practica 1\\Registro5Act2.txt')
 sr = 1000
 
+<<<<<<< Updated upstream
 fig0 = MCI.FFT(s0[:,1], sr)
 fig0.savefig('C:\\Users\\Mouzhroq\\Desktop\\Python\\MCIB-19-P\\images\\Practica 2\\FFTResp1.png')
 fig1 = MCI.FFT(s1[:,1], sr)
@@ -85,3 +90,43 @@ fig, (ax0, ax1) = plt.subplots(nrows=2, sharex=True, constrained_layout=True)
 ax0.plot(s0[15000:30000,0], ECGdetrendf[15000:30000]); ax0.set(title='ECG detrended y filtrada', ylabel='Voltaje')
 ax1.plot(s0[15000:30000,0], ECGfdetrend[15000:30000]); ax1.set(title='ECG filtrada y detrended', ylabel='Voltaje', xlabel='Tiempo[min]')
 fig.savefig('C:\\Users\\Mouzhroq\\Desktop\\Python\\MCIB-19-P\\images\\Practica 2\\ECGfiltradadetrended.png')
+=======
+# fig0 = MCI.FFT(s0[:,1], sr)
+# fig0.savefig(datapath+'\\..\\images\\Practica 2\\FFTResp1.png')
+# fig1 = MCI.FFT(s1[:,1], sr)
+# fig1.savefig(datapath+'\\..\\images\\Practica 2\\FFTResp2.png')
+# fig2 = MCI.FFT(s2[:,1], sr)
+# fig2.savefig(datapath+'\\..\\images\\Practica 2\\FFTResp3.png')
+# fig3 = MCI.FFT(s3[:,1], sr)
+# fig3.savefig(datapath+'\\..\\images\\Practica 2\\FFTResp4.png')
+# fig4 = MCI.FFT(s0[:,2], sr)
+# fig4.savefig(datapath+'\\..\\images\\Practica 2\\FFTECG1.png')
+# fig5 = MCI.FFT(s1[:,2], sr)
+# fig5.savefig(datapath+'\\..\\images\\Practica 2\\FFTECG2.png')
+# fig6 = MCI.FFT(s2[:,2], sr)
+# fig6.savefig(datapath+'\\..\\images\\Practica 2\\FFTECG3.png')
+# fig7 = MCI.FFT(s3[:,2], sr)
+# fig7.savefig(datapath+'\\..\\images\\Practica 2\\FFTECG4.png')
+# fig8 = MCI.FFT(s0[:,3], sr)
+# fig8.savefig(datapath+'\\..\\images\\Practica 2\\FFTEMG1.png')
+# fig9 = MCI.FFT(s1[:,3], sr)
+# fig9.savefig(datapath+'\\..\\images\\Practica 2\\FFTEMG2.png')
+# fig10 = MCI.FFT(s2[:,3], sr)
+# fig10.savefig(datapath+'\\..\\images\\Practica 2\\FFTEMG3.png')
+# fig11 = MCI.FFT(s3[:,3], sr)
+# fig11.savefig(datapath+'\\..\\images\\Practica 2\\FFTEMG4.png')
+# fig12 = MCI.FFT(s0[:,4], sr)
+# fig12.savefig(datapath+'\\..\\images\\Practica 2\\FFTPulso1.png')
+# fig13 = MCI.FFT(s1[:,4], sr)
+# fig13.savefig(datapath+'\\..\\images\\Practica 2\\FFTPulso2.png')
+# fig14 = MCI.FFT(s2[:,4], sr)
+# fig14.savefig(datapath+'\\..\\images\\Practica 2\\FFTPulso3.png')
+# fig15 = MCI.FFT(s3[:,4], sr)
+# fig15.savefig(datapath+'\\..\\images\\Practica 2\\FFTPulso4.png')
+
+
+## Esquema de filtrado 
+t = np.linspace(0,len(s0)/sr,len(s0))
+l = l = 100
+fig16 = MCI.detrend(s0,t,l)
+>>>>>>> Stashed changes
