@@ -37,6 +37,7 @@ def psd(s, l, t, sr):
     plt.show()  
     return fig
 
+#filter es una palabra reservada de python 3
 def filter(a, b, sr):
     w, h = sg.freqz(b, a)
     fig, ax =plt.subplots()
@@ -63,6 +64,7 @@ def media_movil(s, l, t, time):
     plt.show()
     return fig
 
+#¿Por que
 def detrend(s, time, l):
     t= 50
     index=np.array([0, l])

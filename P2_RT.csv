@@ -1,0 +1,19 @@
+actividad,descripción,AGUILAR CRUZ MARIA DEL ROSARIO,SOLIS CARRERA JUAN ANTONIO,comment RT
+Actividad 1,Desarrollar una función que calcule la FFT aplicando por lo menos tres ventanas de tal forma que se pueda evaluar cual ventana permite visualizar de mejor manera al espectro,2.8,2.8,¿Por qué se utiliza la constante 100 que divide al tiempo? ¿No debería ser un parámetro?
+,"Desarrollar una función que estime el PSD con el algoritmo de Welch, siendo sus entradas: señal, longitud de las épocas, y porcentaje de traslape",2.8,2.8,¿Por qué se utiliza la constante 100 que divide al tiempo? ¿No debería ser un parámetro?
+,Desarrollar una función que permita evaluar la respuesta en frecuencia de un filtro,2.8,2.8,¿Por qué se utiliza la constante 100 que divide al tiempo? ¿No debería ser un parámetro?
+,"Implementar una función elimine la tendencia lineal móvil, asumiendo un 50 % de traslape de épocas de N muestras, y utilizando el método de la pseudo-inversa",3,3,(vacío)
+,"Implementar una función que evalúe un filtro de media móvil, para épocas de N muestras con p porcentaje de traslape",3,3,(vacío)
+Actividad 2,Estimar el espectro para cada una de las señales adquiridas en la Práctica 0 ¿Los espectros de un mismo tipo de señal son parecidos a pesar de haber sido adquiridos en diferentes sesiones?,3,3,(vacío)
+,Evalúe que caso preserva más la morfología de la señal: eliminar tendencia→filtrado vs filtrado→eliminar tendencia,0,0,"Esta conclusión difiere con la teoría, presumiblemente seleccionaron un segmento de señal que no requiere eliminar la tendencia lineal"
+,Implementar un esquema de filtrado que mejor se adapte a cada tipo de señal. a) Evaluar la respuesta en frecuencia de los filtros. b) Comparar la señal filtrada respecto a la original,3,3,(vacío)
+,"Seleccione los registros que requieran que se elimine la tendencia lineal, y elimínela con la función que diseño.",3,3,¿Por qué se utiliza la constante 100 que divide al tiempo? ¿No debería ser un parámetro?
+Entregables,Análisis de las decisiones tomadas para la elección de los diferentes esquemas de filtrado,1,1,"Únicamente se indica en la bitácora, mas no se analiza"
+,Bitácora,8,8,No se discuten con suficiente detalle los hallazgos
+,Código en github: se requieren de al menos 10 commits con versiones funcionales en cada caso,3,3,(vacío)
+,Discusión de los hallazgos relacionados a la estimación del contenido espectral de sus señales,0,0,No se menciona
+,,,,
+,Puntos,27.4,27.4,
+,De,39,39,
+,Calificación Practica,7.02564102564103,7.02564102564103,
+,Bitácora,8,8,
