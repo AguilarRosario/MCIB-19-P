@@ -82,28 +82,43 @@ ax2.plot(ejez[2,:])
 ax3.plot(ejez[3,:])
 # plt.show()
 
-#Histogramas para señal de respirograma en la etapa inicial (esto está mal)
+#Histogramas para señal de respirograma en la etapa inicial
 nbins = int(round(np.sqrt(ini[0,:].shape[0])))
-bins0, hist0       = MCI.histograma(ini[0,:], nbins)
-bins0ree, hist0ree = MCI.histograma(iniree[0,:], nbins)
-bins0z, hist0z     = MCI.histograma(iniz[0,:], nbins)
-bins1, hist1       = MCI.histograma(ada[0,:], nbins)
-bins1ree, hist1ree = MCI.histograma(adaree[0,:], nbins)
-bins1z, hist1z     = MCI.histograma(adaz[0,:], nbins)
-bins2, hist2       = MCI.histograma(eje[0,:], nbins)
-bins2ree, hist2ree = MCI.histograma(ejeree[0,:], nbins)
-bins2z, hist2z     = MCI.histograma(ejez[0,:], nbins)
-bins3, hist3       = MCI.histograma(fin[0,:], nbins)
-bins3ree, hist3ree = MCI.histograma(finree[0,:], nbins)
-bins3z, hist3z     = MCI.histograma(finz[0,:], nbins)
-fig,(ax0,ax1,ax2,ax3) = plt.subplots(nrows=4, sharex=True)
-ax0.bar(bins0, hist0, width=0.05, alpha=0.5); ax0.bar(bins0ree, hist0ree, width=0.05, alpha=0.5); ax0.bar(bins0z, hist0z, width=0.05, alpha=0.5)
-ax1.bar(bins1, hist1, width=0.05, alpha=0.5); ax1.bar(bins1ree, hist1ree, width=0.05, alpha=0.5); ax1.bar(bins1z, hist1z, width=0.05, alpha=0.5)
-ax2.bar(bins2, hist2, width=0.05, alpha=0.5); ax2.bar(bins2ree, hist2ree, width=0.05, alpha=0.5); ax2.bar(bins2z, hist2z, width=0.05, alpha=0.5)
-ax3.bar(bins3, hist3, width=0.05, alpha=0.5); ax3.bar(bins3ree, hist3ree, width=0.05, alpha=0.5); ax3.bar(bins3z, hist3z, width=0.05, alpha=0.5)
+bins0, hist0 = MCI.histograma(iniree[0,:], nbins)
+bins1, hist1 = MCI.histograma(adaree[0,:], nbins)
+bins2, hist2 = MCI.histograma(ejeree[0,:], nbins)
+bins3, hist3 = MCI.histograma(finree[0,:], nbins)
+
+fig,ax0 = plt.subplots(nrows=1, sharex=True)
+ax0.bar(bins0, hist0, width=0.05, alpha=0.3, label='Etapa inicial');ax0.bar(bins1, hist1, width=0.05, alpha=0.3, label='Adaptación');ax0.bar(bins2, hist2, width=0.05, alpha=0.3, label='Ejercicio');ax0.bar(bins3, hist3, width=0.05, alpha=0.3, label='Etapa final');plt.legend()
+# plt.show()
+
+bins0, hist0 = MCI.histograma(iniree[1,:], nbins)
+bins1, hist1 = MCI.histograma(adaree[1,:], nbins)
+bins2, hist2 = MCI.histograma(ejeree[1,:], nbins)
+bins3, hist3 = MCI.histograma(finree[1,:], nbins)
+
+fig,ax0 = plt.subplots(nrows=1, sharex=True)
+ax0.bar(bins0, hist0, width=0.05, alpha=0.3, label='Etapa inicial');ax0.bar(bins1, hist1, width=0.05, alpha=0.3, label='Adaptación');ax0.bar(bins2, hist2, width=0.05, alpha=0.3, label='Ejercicio');ax0.bar(bins3, hist3, width=0.05, alpha=0.3, label='Etapa final');plt.legend()
+# plt.show()
+
+bins0, hist0 = MCI.histograma(iniree[2,:], nbins)
+bins1, hist1 = MCI.histograma(adaree[2,:], nbins)
+bins2, hist2 = MCI.histograma(ejeree[2,:], nbins)
+bins3, hist3 = MCI.histograma(finree[2,:], nbins)
+
+fig,ax0 = plt.subplots(nrows=1, sharex=True)
+ax0.bar(bins0, hist0, width=0.05, alpha=0.3, label='Etapa inicial');ax0.bar(bins1, hist1, width=0.05, alpha=0.3, label='Adaptación');ax0.bar(bins2, hist2, width=0.05, alpha=0.3, label='Ejercicio');ax0.bar(bins3, hist3, width=0.05, alpha=0.3, label='Etapa final');plt.legend()
+# plt.show()
+
+bins0, hist0 = MCI.histograma(iniree[3,:], nbins)
+bins1, hist1 = MCI.histograma(adaree[3,:], nbins)
+bins2, hist2 = MCI.histograma(ejeree[3,:], nbins)
+bins3, hist3 = MCI.histograma(finree[3,:], nbins)
+
+fig,ax0 = plt.subplots(nrows=1, sharex=True)
+ax0.bar(bins0, hist0, width=0.05, alpha=0.3, label='Etapa inicial');ax0.bar(bins1, hist1, width=0.05, alpha=0.3, label='Adaptación');ax0.bar(bins2, hist2, width=0.05, alpha=0.3, label='Ejercicio');ax0.bar(bins3, hist3, width=0.05, alpha=0.3, label='Etapa final');plt.legend()
 plt.show()
-
-
 
 
 
