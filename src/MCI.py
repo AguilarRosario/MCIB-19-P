@@ -37,7 +37,7 @@ def psd(s, l, t, sr):
     # plt.show()  
     return mfft
 
-def filter(a, b, sr):
+def fil(a, b, sr):
     w, h = sg.freqz(b, a)
     fig, ax =plt.subplots()
     ax.plot(w*sr/np.pi, 20*np.log10(np.abs(h))); ax.set(title='Respuesta del filtro', xlabel='Frecuencia (Hz)', ylabel='dB')
