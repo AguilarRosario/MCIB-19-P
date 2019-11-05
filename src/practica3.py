@@ -22,6 +22,7 @@ ax1.plot(t, ECG); ax1.set(ylabel='ECG')
 ax2.plot(t, EMG); ax2.set(ylabel='EMG')
 ax3.plot(t, pulso); ax3.set(xlabel='Tiempo [seg]',ylabel='Pulso')
 fig.suptitle('Eliminación de tendencia lineal')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\Detrended.png')
 
 # Filtrado de la señal 
 b, a = signal.butter(4,2/sr*30)
@@ -35,6 +36,7 @@ ax1.plot(t, ECG_f); ax1.set(ylabel='ECG')
 ax2.plot(t, EMG); ax2.set(ylabel='EMG')
 ax3.plot(t, pulso_f); ax3.set(ylabel='Pulso', xlabel='Tiempo [seg]')
 fig.suptitle('Eliminación de tendencia lineal y filtrado')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\Detrendedyfilt.png')
 
 
 ini = np.array([])
@@ -52,6 +54,7 @@ ax1.plot(ada[1,:]); ax1.set(ylabel='Adaptacion')
 ax2.plot(eje[1,:]); ax2.set(ylabel='Ejercicio')
 ax3.plot(fin[1,:]); ax3.set(ylabel='Final')
 fig.suptitle('ECG para los 4 segmentos')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\Segmentos.png')
 
 # Dejar la señal en un intervalo entre [-1,1]
 iniree = (((ini-np.min(ini, axis=1)[:,np.newaxis])*2)/(np.max(ini-np.min(ini, axis=1)[:,np.newaxis], axis=1)[:,np.newaxis]))-1
@@ -64,6 +67,7 @@ ax1.plot(adaree[1,:]); ax1.set(ylabel='ECG')
 ax2.plot(ejeree[2,:]); ax2.set(ylabel='EMG')
 ax3.plot(finree[3,:]); ax3.set(ylabel='Pulso')
 fig.suptitle('Reescalamiento de [-1,1] de segmento de actividad para 4 señales')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\Reescalamiento.png')
 
 #z-score, obtenemos la media y varianza con los estimadores
 iniz = MCI.zscore(ini)
@@ -76,6 +80,7 @@ ax1.plot(ejez[1,:]); ax1.set(ylabel='ECG')
 ax2.plot(ejez[2,:]); ax2.set(ylabel='EMG')
 ax3.plot(ejez[3,:]); ax3.set(ylabel='Pulso')
 fig.suptitle('Reescalamiento zscore de segmento de actividad para 4 señales')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\zscore.png')
 
 #Histogramas para señal de respirograma sin reescalar
 nbins = int(round(np.sqrt(ini[0,:].shape[0])))
@@ -86,6 +91,7 @@ bins3, hist3 = MCI.histograma(fin[0,:], nbins)
 fig,ax0 = plt.subplots(nrows=1, sharex=True)
 ax0.bar(bins0, hist0, width=0.05, alpha=0.3, label='Etapa inicial');ax0.bar(bins1, hist1, width=0.05, alpha=0.3, label='Adaptación');ax0.bar(bins2, hist2, width=0.05, alpha=0.3, label='Ejercicio');ax0.bar(bins3, hist3, width=0.05, alpha=0.3, label='Etapa final');plt.legend()
 fig.suptitle('Histogramas del respirograma sin reescalar')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\HistResp.png')
 
 #Histogramas para la señal de ECG sin reescalar
 bins0, hist0 = MCI.histograma(ini[1,:], nbins)
@@ -95,6 +101,7 @@ bins3, hist3 = MCI.histograma(fin[1,:], nbins)
 fig,ax0 = plt.subplots(nrows=1, sharex=True)
 ax0.bar(bins0, hist0, width=0.05, alpha=0.3, label='Etapa inicial');ax0.bar(bins1, hist1, width=0.05, alpha=0.3, label='Adaptación');ax0.bar(bins2, hist2, width=0.05, alpha=0.3, label='Ejercicio');ax0.bar(bins3, hist3, width=0.05, alpha=0.3, label='Etapa final');plt.legend()
 fig.suptitle('Histogramas del ECG sin reescalar')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\HistECG.png')
 
 #Histogramas para la señal de EMG sin reescalar
 bins0, hist0 = MCI.histograma(ini[2,:], nbins)
@@ -104,6 +111,7 @@ bins3, hist3 = MCI.histograma(fin[2,:], nbins)
 fig,ax0 = plt.subplots(nrows=1, sharex=True)
 ax0.bar(bins0, hist0, width=0.05, alpha=0.2, label='Etapa inicial');ax0.bar(bins1, hist1, width=0.05, alpha=0.2, label='Adaptación');ax0.bar(bins2, hist2, width=0.05, alpha=1, label='Ejercicio');ax0.bar(bins3, hist3, width=0.05, alpha=0.3, label='Etapa final');plt.legend()
 fig.suptitle('Histogramas del EMG sin reescalar')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\HistEMG.png')
 
 #Histogramas para la señal de Onda de pulso sin reescalar
 bins0, hist0 = MCI.histograma(ini[3,:], nbins)
@@ -113,6 +121,7 @@ bins3, hist3 = MCI.histograma(fin[3,:], nbins)
 fig,ax0 = plt.subplots(nrows=1, sharex=True)
 ax0.bar(bins0, hist0, width=0.05, alpha=0.3, label='Etapa inicial');ax0.bar(bins1, hist1, width=0.05, alpha=0.3, label='Adaptación');ax0.bar(bins2, hist2, width=0.05, alpha=1, label='Ejercicio');ax0.bar(bins3, hist3, width=0.05, alpha=0.3, label='Etapa final');plt.legend()
 fig.suptitle('Histogramas de la señal de pulso sin reescalar')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\HistPul.png')
 
 #Histogramas para señal de respirograma
 nbins = int(round(np.sqrt(ini[0,:].shape[0])))
@@ -123,6 +132,7 @@ bins3, hist3 = MCI.histograma(finree[0,:], nbins)
 fig,ax0 = plt.subplots(nrows=1, sharex=True)
 ax0.bar(bins0, hist0, width=0.05, alpha=0.3, label='Etapa inicial');ax0.bar(bins1, hist1, width=0.05, alpha=0.3, label='Adaptación');ax0.bar(bins2, hist2, width=0.05, alpha=0.3, label='Ejercicio');ax0.bar(bins3, hist3, width=0.05, alpha=0.3, label='Etapa final');plt.legend()
 fig.suptitle('Histogramas del respirograma reescalado')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\HistRespRee.png')
 
 #Histogramas para la señal de ECG
 bins0, hist0 = MCI.histograma(iniree[1,:], nbins)
@@ -132,6 +142,7 @@ bins3, hist3 = MCI.histograma(finree[1,:], nbins)
 fig,ax0 = plt.subplots(nrows=1, sharex=True)
 ax0.bar(bins0, hist0, width=0.05, alpha=0.3, label='Etapa inicial');ax0.bar(bins1, hist1, width=0.05, alpha=0.3, label='Adaptación');ax0.bar(bins2, hist2, width=0.05, alpha=0.3, label='Ejercicio');ax0.bar(bins3, hist3, width=0.05, alpha=0.3, label='Etapa final');plt.legend()
 fig.suptitle('Histogramas del ECG reescalado')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\HistECGRee.png')
 
 #Histogramas para la señal de EMG
 bins0, hist0 = MCI.histograma(iniree[2,:], nbins)
@@ -141,6 +152,7 @@ bins3, hist3 = MCI.histograma(finree[2,:], nbins)
 fig,ax0 = plt.subplots(nrows=1, sharex=True)
 ax0.bar(bins0, hist0, width=0.05, alpha=0.2, label='Etapa inicial');ax0.bar(bins1, hist1, width=0.05, alpha=0.2, label='Adaptación');ax0.bar(bins2, hist2, width=0.05, alpha=1, label='Ejercicio');ax0.bar(bins3, hist3, width=0.05, alpha=0.3, label='Etapa final');plt.legend()
 fig.suptitle('Histogramas del EMG reescalado')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\HistEMGRee.png')
 
 #Histogramas para la señal de Onda de pulso
 bins0, hist0 = MCI.histograma(iniree[3,:], nbins)
@@ -150,6 +162,7 @@ bins3, hist3 = MCI.histograma(finree[3,:], nbins)
 fig,ax0 = plt.subplots(nrows=1, sharex=True)
 ax0.bar(bins0, hist0, width=0.05, alpha=0.3, label='Etapa inicial');ax0.bar(bins1, hist1, width=0.05, alpha=0.3, label='Adaptación');ax0.bar(bins2, hist2, width=0.05, alpha=1, label='Ejercicio');ax0.bar(bins3, hist3, width=0.05, alpha=0.3, label='Etapa final');plt.legend()
 fig.suptitle('Histogramas de la señal de pulso reescalada')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\HistPulRee.png')
 
 # Obtenemos envolvente y área de la señal de EMG para sacar la correlación con otras señales
 def envolvente(signal):
@@ -194,5 +207,6 @@ ax3.plot(r4); ax3.set(ylabel='ECG-EMG')
 ax4.plot(r5); ax4.set(ylabel='ECG-pulso')
 ax5.plot(r6); ax5.set(ylabel='EMG-pulso')
 fig.suptitle('Epocas vs Coeficiente de correlacion')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\Correlacion.png')
 plt.show()
 
