@@ -163,6 +163,31 @@ ax0.bar(bins0, hist0, width=0.05, alpha=0.3, label='Etapa inicial');ax0.bar(bins
 fig.suptitle('Histogramas de la señal de pulso reescalada')
 fig.savefig(datapath + '\\..\\images\\Practica 3\\HistPulRee.png')
 
+<<<<<<< HEAD
+=======
+# Obtenemos envolvente y área de la señal de EMG para sacar la correlación con otras señales
+def envolvente(signal):
+    from scipy.signal import hilbert
+    env = hilbert(signal)
+    env = np.abs(env)
+    # A   = env.sum()/sr
+    A   = 0.5*( env[:-1] + env[1:] ).sum()/sr
+    return env, A
+
+EMGenv, EMGA = envolvente(EMG)
+inienv, iniA = envolvente(iniree[2,:])
+adaenv, adaA = envolvente(adaree[2,:])
+ejeenv, ejeA = envolvente(ejeree[2,:])
+finenv, finA = envolvente(finree[2,:])
+print("""Área de EMG\nEtapa inicial: %.4f"""%iniA)
+print("""Etapa adaptación: %.4f"""%adaA)
+print("""Etapa ejercicio: %.4f"""%ejeA)
+print("""Etapa final: %.4f"""%finA)
+print("""EMG: %.4f"""%EMGA)
+fig, ax = plt.subplots()
+ax.plot(EMGenv)
+
+>>>>>>> d5d31b9b3fbc86b3b43c56bba9d67e19344f73c8
 # Obtenemos segmentos de tiempo de las cuatro señales, la obtener su matriz de correación
 segt = 3
 resp1 = MCI.epochs(Resp_f, segt, sr)
@@ -274,6 +299,10 @@ fig.savefig(datapath + '\\..\\images\\Practica 3\\DeteccionPeaks.png')
 #Frecuencia
 FC = (1/(np.diff(ECG_peaks)/sr))*60
 FP = (1/(np.diff(Pulso_peaks)/sr))*60
+FCmean = int(np.mean(FC))
+FPmean = int(np.mean(FP))
+print('Frecuencia cardiaca con ECG = %i'%FCmean)
+print('Frecuencia cardiaca con pulso = %i'%FPmean)
 fig, (ax0, ax1) = plt.subplots(nrows=2, constrained_layout=True)
 ax0.plot(FC); ax0.set(ylabel='Frecuencia ECG')
 ax1.plot(FP); ax1.set(ylabel='Frecuencia Pulso')
