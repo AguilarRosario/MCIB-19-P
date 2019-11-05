@@ -169,7 +169,8 @@ def envolvente(signal):
     from scipy.signal import hilbert
     env = hilbert(signal)
     env = np.abs(env)
-    A   = env.sum()/sr
+    # A   = env.sum()/sr
+    A   = 0.5*( env[:-1] + env[1:] ).sum()/sr
     return env, A
 
 EMGenv, EMGA = envolvente(EMG)
@@ -224,6 +225,10 @@ fig.savefig(datapath + '\\..\\images\\Practica 3\\DeteccionPeaks.png')
 #Frecuencia
 FC = (1/(np.diff(ECG_peaks)/sr))*60
 FP = (1/(np.diff(Pulso_peaks)/sr))*60
+FCmean = int(np.mean(FC))
+FPmean = int(np.mean(FP))
+print('Frecuencia cardiaca con ECG = %i'%FCmean)
+print('Frecuencia cardiaca con pulso = %i'%FPmean)
 fig, (ax0, ax1) = plt.subplots(nrows=2, constrained_layout=True)
 ax0.plot(FC); ax0.set(ylabel='Frecuencia ECG')
 ax1.plot(FP); ax1.set(ylabel='Frecuencia Pulso')
