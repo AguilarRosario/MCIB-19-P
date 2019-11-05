@@ -38,7 +38,6 @@ ax3.plot(t, pulso_f); ax3.set(ylabel='Pulso', xlabel='Tiempo [seg]')
 fig.suptitle('Eliminación de tendencia lineal y filtrado')
 fig.savefig(datapath + '\\..\\images\\Practica 3\\Detrendedyfilt.png')
 
-
 ini = np.array([])
 ini = np.append(ini, [Resp_f[0:15*sr], ECG_f[0:15*sr], EMG[0:15*sr], pulso_f[0:15*sr]]).reshape(4, 15000) 
 ada = np.array([])
@@ -164,40 +163,19 @@ ax0.bar(bins0, hist0, width=0.05, alpha=0.3, label='Etapa inicial');ax0.bar(bins
 fig.suptitle('Histogramas de la señal de pulso reescalada')
 fig.savefig(datapath + '\\..\\images\\Practica 3\\HistPulRee.png')
 
-# Obtenemos envolvente y área de la señal de EMG para sacar la correlación con otras señales
-def envolvente(signal):
-    from scipy.signal import hilbert
-    env = hilbert(signal)
-    env = np.abs(env)
-    A   = env.sum()/sr
-    return env, A
-
-EMGenv, EMGA = envolvente(EMG)
-inienv, iniA = envolvente(iniree[2,:])
-adaenv, adaA = envolvente(adaree[2,:])
-ejeenv, ejeA = envolvente(ejeree[2,:])
-finenv, finA = envolvente(finree[2,:])
-print("""Área de EMG\nEtapa inicial: %.4f"""%iniA)
-print("""Etapa adaptación: %.4f"""%adaA)
-print("""Etapa ejercicio: %.4f"""%ejeA)
-print("""Etapa final: %.4f"""%finA)
-print("""EMG: %.4f"""%EMGA)
-fig, ax = plt.subplots()
-ax.plot(EMGenv)
-
 # Obtenemos segmentos de tiempo de las cuatro señales, la obtener su matriz de correación
 segt = 3
-resp = MCI.epochs(Resp_f, segt, sr)
-ECG  = MCI.epochs(ECG_f, segt, sr)
-EMG  = MCI.epochs(EMGenv, segt, sr)
-pulso = MCI.epochs(pulso_f, segt, sr)
+resp1 = MCI.epochs(Resp_f, segt, sr)
+ECG1  = MCI.epochs(ECG_f, segt, sr)
+EMG1  = MCI.epochs(EMG, segt, sr)
+pulso1 = MCI.epochs(pulso_f, segt, sr)
 
-r1 = MCI.coef_corr(resp, ECG)
-r2 = MCI.coef_corr(resp, EMG)
-r3 = MCI.coef_corr(resp, pulso)
-r4 = MCI.coef_corr(ECG, EMG)
-r5 = MCI.coef_corr(ECG, pulso)
-r6 = MCI.coef_corr(EMG, pulso)
+r1 = MCI.coef_corr(resp1, ECG1)
+r2 = MCI.coef_corr(resp1, EMG1)
+r3 = MCI.coef_corr(resp1, pulso1)
+r4 = MCI.coef_corr(ECG1, EMG1)
+r5 = MCI.coef_corr(ECG1, pulso1)
+r6 = MCI.coef_corr(EMG1, pulso1)
 
 fig, (ax0, ax1, ax2, ax3, ax4, ax5) = plt.subplots(nrows=6, constrained_layout=True)
 ax0.plot(r1); ax0.set(ylabel='resp-ECG')
@@ -209,6 +187,78 @@ ax5.plot(r6); ax5.set(ylabel='EMG-pulso')
 fig.suptitle('Epocas vs Coeficiente de correlacion')
 fig.savefig(datapath + '\\..\\images\\Practica 3\\Correlacion.png')
 
+#Coherencia 
+f, co11 = MCI.cohe(ini[0,:], ini[1, :], sr)
+f, co21 = MCI.cohe(ada[0,:], ada[1,:], sr)
+f, co31 = MCI.cohe(eje[0,:], eje[1,:], sr)
+f, co41 = MCI.cohe(fin[0,:], fin[1, :], sr)
+fig, (ax0, ax1, ax2, ax3) = plt.subplots(nrows=4, constrained_layout=True, sharex=True)
+ax0.plot(f, co11); ax0.set(ylabel='Inicial')
+ax1.plot(f, co21); ax1.set(ylabel='Adaptacion')
+ax2.plot(f, co31); ax2.set(ylabel='Ejercicio')
+ax3.plot(f, co41); ax3.set(xlabel='Hz', ylabel='Final')
+fig.suptitle('Coherencia entre el respirograma y el ECG')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\CohResECG.png')
+
+f, co12 = MCI.cohe(ini[0,:], ini[2, :], sr)
+f, co22 = MCI.cohe(ada[0,:], ada[2,:], sr)
+f, co32 = MCI.cohe(eje[0,:], eje[2,:], sr)
+f, co42 = MCI.cohe(fin[0,:], fin[2, :], sr)
+fig, (ax0, ax1, ax2, ax3) = plt.subplots(nrows=4, constrained_layout=True, sharex=True)
+ax0.plot(f, co12); ax0.set(ylabel='Inicial')
+ax1.plot(f, co22); ax1.set(ylabel='Adaptacion')
+ax2.plot(f, co32); ax2.set(ylabel='Ejercicio')
+ax3.plot(f, co42); ax3.set(xlabel='Hz', ylabel='Final')
+fig.suptitle('Coherencia entre el respirograma y el EMG')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\CohResEMG.png')
+
+f, co13 = MCI.cohe(ini[0,:], ini[3, :], sr)
+f, co23 = MCI.cohe(ada[0,:], ada[3,:], sr)
+f, co33 = MCI.cohe(eje[0,:], eje[3,:], sr)
+f, co43 = MCI.cohe(fin[0,:], fin[3, :], sr)
+fig, (ax0, ax1, ax2, ax3) = plt.subplots(nrows=4, constrained_layout=True, sharex=True)
+ax0.plot(f, co13); ax0.set(ylabel='Inicial')
+ax1.plot(f, co23); ax1.set(ylabel='Adaptacion')
+ax2.plot(f, co33); ax2.set(ylabel='Ejercicio')
+ax3.plot(f, co43); ax3.set(xlabel='Hz', ylabel='Final')
+fig.suptitle('Coherencia entre el respirograma y la señal de pulso')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\CohResPul.png')
+
+f, co14 = MCI.cohe(ini[1,:], ini[2, :], sr)
+f, co24 = MCI.cohe(ada[1,:], ada[2,:], sr)
+f, co34 = MCI.cohe(eje[1,:], eje[2,:], sr)
+f, co44 = MCI.cohe(fin[1,:], fin[2, :], sr)
+fig, (ax0, ax1, ax2, ax3) = plt.subplots(nrows=4, constrained_layout=True, sharex=True)
+ax0.plot(f, co14); ax0.set(ylabel='Inicial')
+ax1.plot(f, co24); ax1.set(ylabel='Adaptacion')
+ax2.plot(f, co34); ax2.set(ylabel='Ejercicio')
+ax3.plot(f, co44); ax3.set(xlabel='Hz', ylabel='Final')
+fig.suptitle('Coherencia entre el ECG y el EMG')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\CohECGEMG.png')
+
+f, co15 = MCI.cohe(ini[1,:], ini[3, :], sr)
+f, co25 = MCI.cohe(ada[1,:], ada[3,:], sr)
+f, co35 = MCI.cohe(eje[1,:], eje[3,:], sr)
+f, co45 = MCI.cohe(fin[1,:], fin[3, :], sr)
+fig, (ax0, ax1, ax2, ax3) = plt.subplots(nrows=4, constrained_layout=True, sharex=True)
+ax0.plot(f, co15); ax0.set(ylabel='Inicial')
+ax1.plot(f, co25); ax1.set(ylabel='Adaptacion')
+ax2.plot(f, co35); ax2.set(ylabel='Ejercicio')
+ax3.plot(f, co45); ax3.set(xlabel='Hz', ylabel='Final')
+fig.suptitle('Coherencia entre el ECG y la señal de pulso')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\CohECGPulso.png')
+
+f, co16 = MCI.cohe(ini[2,:], ini[3, :], sr)
+f, co26 = MCI.cohe(ada[2,:], ada[3,:], sr)
+f, co36 = MCI.cohe(eje[2,:], eje[3,:], sr)
+f, co46 = MCI.cohe(fin[2,:], fin[3, :], sr)
+fig, (ax0, ax1, ax2, ax3) = plt.subplots(nrows=4, constrained_layout=True, sharex=True)
+ax0.plot(f, co16); ax0.set(ylabel='Inicial')
+ax1.plot(f, co26); ax1.set(ylabel='Adaptacion')
+ax2.plot(f, co36); ax2.set(ylabel='Ejercicio')
+ax3.plot(f, co46); ax3.set(xlabel='Hz', ylabel='Final')
+fig.suptitle('Coherencia entre el EMG y la señal de pulso')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\CohEMGPul.png')
 
 #Detector de picos
 ECG_peaks, p = signal.find_peaks(ECG_f, height=1)
@@ -229,8 +279,23 @@ ax0.plot(FC); ax0.set(ylabel='Frecuencia ECG')
 ax1.plot(FP); ax1.set(ylabel='Frecuencia Pulso')
 fig.suptitle('Frecuencia cardiaca')
 fig.savefig(datapath + '\\..\\images\\Practica 3\\Frecuencia.png')
-plt.show()
 
 FC = np.delete(FC, -1)
 cor = MCI.coef_corr(FC[np.newaxis, :], FP[np.newaxis, :])
 print('Coefieciente de correlacion entre las señales: %.3f' %cor)
+
+# Obtenemos envolvente y área de la señal de EMG para sacar la correlación con otras señales
+EMGenv, EMGA= MCI.envolvente(EMG, sr)
+inienv, iniA= MCI.envolvente(iniree[2,:], sr)
+adaenv, adaA= MCI.envolvente(adaree[2,:], sr)
+ejeenv, ejeA= MCI.envolvente(ejeree[2,:], sr)
+finenv, finA= MCI.envolvente(finree[2,:], sr)
+print("""Área de EMG
+Etapa inicial: %.4f
+Etapa adaptación: %.4f
+Etapa ejercicio: %.4f
+Etapa final: %.4f
+EMG: %.4f""" %(iniA, adaA, ejeA, finA, EMGA))
+fig, ax = plt.subplots()
+ax.plot(EMGenv)
+plt.show()

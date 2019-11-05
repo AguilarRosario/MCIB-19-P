@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from scipy.fftpack import fft 
 from scipy.signal import windows
 import scipy.signal as sg
+from scipy.signal import hilbert
 
 def FFT (signal, sr):
     w = np.linspace(0, 2*sr, len(signal))
@@ -107,3 +108,16 @@ def coef_corr(signal1, signal2):
         z = S[0,1]/np.product( np.sqrt(S.diagonal() ) )
         r = np.append(r, z)
     return r 
+
+def cohe(s1, s2, sr):
+    f, Pxy = sg.csd(s1, s2, sr)
+    f, Pxx = sg.welch(s1, sr)
+    f, Pyy = sg.welch(s2, sr)
+    coh = (np.abs(Pxy)**2)/(Pxx*Pyy)
+    return f, coh
+    
+def envolvente(signal, sr):
+    env = hilbert(signal)
+    env = np.abs(env)
+    A = (0.5*( env[:-1] + env[1:] ).sum())/sr
+    return env, A 
