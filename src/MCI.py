@@ -27,7 +27,7 @@ def psd(s, l, t, sr):
         index= np.append(index, np.array([index[-1]-l*(t/100), index[-1]-l*(t/100)+l]) )
     index = np.array(np.sort(np.delete(index, -1))).astype(int)
     epochs = np.array([s[i:i+l] for i in index])
-    w = np.linspace(0, 2*sr, l)
+    w = np.linspace(0, 0.5*sr, l)
     mfft = (20*np.log10(np.abs(fft(epochs))))
     mfft = (1/len(epochs[:,0]))*np.sum(mfft, axis=0)
     return mfft, w

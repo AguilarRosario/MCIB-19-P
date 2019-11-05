@@ -208,5 +208,29 @@ ax4.plot(r5); ax4.set(ylabel='ECG-pulso')
 ax5.plot(r6); ax5.set(ylabel='EMG-pulso')
 fig.suptitle('Epocas vs Coeficiente de correlacion')
 fig.savefig(datapath + '\\..\\images\\Practica 3\\Correlacion.png')
+
+
+#Detector de picos
+ECG_peaks, p = signal.find_peaks(ECG_f, height=1)
+Pulso_peaks, p = signal.find_peaks(pulso_f, height=0.1, distance=500)
+fig, (ax0, ax1) = plt.subplots(nrows=2, constrained_layout=True)
+ax0.plot(ECG_f); ax0.set(ylabel='ECG')
+ax0.plot(ECG_peaks, ECG_f[ECG_peaks], "x")
+ax1.plot(pulso_f); ax1.set(ylabel='Pulso')
+ax1.plot(Pulso_peaks, pulso_f[Pulso_peaks], "x")
+fig.suptitle('Deteccion de picos')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\DeteccionPeaks.png')
+
+#Frecuencia
+FC = (1/(np.diff(ECG_peaks)/sr))*60
+FP = (1/(np.diff(Pulso_peaks)/sr))*60
+fig, (ax0, ax1) = plt.subplots(nrows=2, constrained_layout=True)
+ax0.plot(FC); ax0.set(ylabel='Frecuencia ECG')
+ax1.plot(FP); ax1.set(ylabel='Frecuencia Pulso')
+fig.suptitle('Frecuencia cardiaca')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\Frecuencia.png')
 plt.show()
 
+FC = np.delete(FC, -1)
+cor = MCI.coef_corr(FC[np.newaxis, :], FP[np.newaxis, :])
+print('Coefieciente de correlacion entre las señales: %.3f' %cor)
