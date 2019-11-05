@@ -132,6 +132,7 @@ def envolvente(signal):
     A   = env.sum()/sr
     return env, A
 
+EMGenv, EMGA = envolvente(EMG)
 inienv, iniA = envolvente(iniree[2,:])
 adaenv, adaA = envolvente(adaree[2,:])
 ejeenv, ejeA = envolvente(ejeree[2,:])
@@ -140,6 +141,52 @@ print("""Área de EMG\nEtapa inicial: %.4f"""%iniA)
 print("""Etapa adaptación: %.4f"""%adaA)
 print("""Etapa ejercicio: %.4f"""%ejeA)
 print("""Etapa final: %.4f"""%finA)
+print("""EMG: %.4f"""%EMGA)
+fig, ax = plt.subplots()
+ax.plot(EMGenv)
 
-# Obtenemos la matriz de covarianza para cada segmento (reescalamiento [-1,1]) de las 4 señales 
-# inicov = np.cov(iniree[0,:], iniree[1,:],iniree[2,:], iniree[3,:])
+# Obtenemos segmentos de tiempo de las cuatro señales, la obtener su matriz de correación
+segt = 5
+
+def epochs(signal, segt, sr):
+    segt = segt*sr
+    i = 0
+    epochs = np.array([])
+    while(i<len(signal)-segt):
+        epochs = np.append(epochs, signal[i:i+segt])
+        i = i+segt
+    epochs = np.reshape(epochs, (int(len(signal)/segt),segt))
+    return epochs
+
+def coef_corr(signal1, signal2):
+    r = np.array([])
+    for i in range(signal1.shape[0]):
+        S = np.cov(signal1[i,:], signal2[i,:])
+        z = S[0,1]/np.product( np.sqrt(S.diagonal() ) )
+        r = np.append(r, z)
+    return r 
+
+
+resp = epochs(Resp_f, segt, sr)
+ECG  = epochs(ECG_f, segt, sr)
+EMG  = epochs(EMGenv, segt, sr)
+pulso = epochs(pulso_f, segt, sr)
+
+r1 = coef_corr(resp, ECG)
+r2 = coef_corr(resp, EMG)
+r3 = coef_corr(resp, pulso)
+r4 = coef_corr(ECG, EMG)
+r5 = coef_corr(ECG, pulso)
+r6 = coef_corr(EMG, pulso)
+
+fig, ax = plt.subplots()
+ax.plot(r1, linewidth=3, label='resp-ECG')
+ax.plot(r2, linewidth=3, label='resp-EMG')
+ax.plot(r3, linewidth=3, label='resp-pulso')
+ax.plot(r4, linewidth=3, label='ECG-EMG')
+ax.plot(r5, linewidth=3, label='ECG-pulso')
+ax.plot(r6, linewidth=3, label='EMG-pulso')
+plt.legend(loc=3)
+plt.grid(True)
+plt.show()
+
