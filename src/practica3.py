@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import MCI
 import os 
 import scipy.signal      as signal
+from scipy import interpolate
 
 datapath = os.path.abspath('')
 reg1 = np.loadtxt(datapath + '\\..\\data\\Practica 1\\Registro1Act1.txt')
@@ -163,31 +164,6 @@ ax0.bar(bins0, hist0, width=0.05, alpha=0.3, label='Etapa inicial');ax0.bar(bins
 fig.suptitle('Histogramas de la señal de pulso reescalada')
 fig.savefig(datapath + '\\..\\images\\Practica 3\\HistPulRee.png')
 
-<<<<<<< HEAD
-=======
-# Obtenemos envolvente y área de la señal de EMG para sacar la correlación con otras señales
-def envolvente(signal):
-    from scipy.signal import hilbert
-    env = hilbert(signal)
-    env = np.abs(env)
-    # A   = env.sum()/sr
-    A   = 0.5*( env[:-1] + env[1:] ).sum()/sr
-    return env, A
-
-EMGenv, EMGA = envolvente(EMG)
-inienv, iniA = envolvente(iniree[2,:])
-adaenv, adaA = envolvente(adaree[2,:])
-ejeenv, ejeA = envolvente(ejeree[2,:])
-finenv, finA = envolvente(finree[2,:])
-print("""Área de EMG\nEtapa inicial: %.4f"""%iniA)
-print("""Etapa adaptación: %.4f"""%adaA)
-print("""Etapa ejercicio: %.4f"""%ejeA)
-print("""Etapa final: %.4f"""%finA)
-print("""EMG: %.4f"""%EMGA)
-fig, ax = plt.subplots()
-ax.plot(EMGenv)
-
->>>>>>> d5d31b9b3fbc86b3b43c56bba9d67e19344f73c8
 # Obtenemos segmentos de tiempo de las cuatro señales, la obtener su matriz de correación
 segt = 3
 resp1 = MCI.epochs(Resp_f, segt, sr)
@@ -315,16 +291,57 @@ print('Coefieciente de correlacion entre las señales: %.3f' %cor)
 
 # Obtenemos envolvente y área de la señal de EMG para sacar la correlación con otras señales
 EMGenv, EMGA= MCI.envolvente(EMG, sr)
-inienv, iniA= MCI.envolvente(iniree[2,:], sr)
-adaenv, adaA= MCI.envolvente(adaree[2,:], sr)
-ejeenv, ejeA= MCI.envolvente(ejeree[2,:], sr)
-finenv, finA= MCI.envolvente(finree[2,:], sr)
+inienv, iniA= MCI.envolvente(ini[2,:], sr)
+adaenv, adaA= MCI.envolvente(ada[2,:], sr)
+ejeenv, ejeA= MCI.envolvente(eje[2,:], sr)
+finenv, finA= MCI.envolvente(fin[2,:], sr)
 print("""Área de EMG
 Etapa inicial: %.4f
 Etapa adaptación: %.4f
 Etapa ejercicio: %.4f
 Etapa final: %.4f
 EMG: %.4f""" %(iniA, adaA, ejeA, finA, EMGA))
-fig, ax = plt.subplots()
-ax.plot(EMGenv)
-plt.show()
+
+#Interpolacion de la frecuenacia cardiaca para obtener la correlacion
+peakini, p = signal.find_peaks(ini[1,:], height=1)
+FC1 = (1/(np.diff(peakini)/sr))*60
+x1 = np.linspace(1, len(FC1), len(FC1))
+xn1 = np.linspace(1, len(FC1), len(inienv))
+f1 = interpolate.interp1d(x1, FC1, kind='cubic')
+yn1 = f1(xn1)
+peakada, p = signal.find_peaks(ada[1,:], height=1)
+FC2 = (1/(np.diff(peakada)/sr))*60
+x2 = np.linspace(1, len(FC2), len(FC2))
+xn2 = np.linspace(1, len(FC2), len(adaenv))
+f2 = interpolate.interp1d(x2, FC2, kind='cubic')
+yn2 = f2(xn2)
+peakeje, p = signal.find_peaks(eje[1,:], height=1)
+FC3 = (1/(np.diff(peakeje)/sr))*60
+x3 = np.linspace(1, len(FC3), len(FC3))
+xn3 = np.linspace(1, len(FC3), len(ejeenv))
+f3 = interpolate.interp1d(x3, FC3, kind='cubic')
+yn3 = f3(xn3)
+peakfin, p = signal.find_peaks(fin[1,:], height=1)
+FC4 = (1/(np.diff(peakfin)/sr))*60
+x4 = np.linspace(1, len(FC4), len(FC4))
+xn4 = np.linspace(1, len(FC4), len(finenv))
+f4 = interpolate.interp1d(x4, FC4, kind='cubic')
+yn4 = f4(xn4)
+fig, (ax0, ax1, ax2, ax3) = plt.subplots(nrows=4, constrained_layout=True)
+ax0.plot(x1, FC1, 'o', xn1, yn1, '-'); ax0.set(ylabel= 'inicial')
+ax1.plot(x2, FC2, 'o', xn2, yn2, '-'); ax1.set(ylabel= 'adaptacion')
+ax2.plot(x3, FC3, 'o', xn3, yn3, '-'); ax2.set(ylabel= 'ejercicio')
+ax3.plot(x4, FC4, 'o', xn4, yn4, '-'); ax3.set(ylabel= 'final')
+fig.suptitle('Interpolacion frecuencia cardiaca')
+fig.savefig(datapath + '\\..\\images\\Practica 3\\Interpolacion.png')
+
+#Correlacion de la frecuencia cardiaca y el EMG
+cc1 = MCI.coef_corr(inienv[np.newaxis, :], yn1[np.newaxis, :]) 
+cc2 = MCI.coef_corr(adaenv[np.newaxis, :], yn2[np.newaxis, :]) 
+cc3 = MCI.coef_corr(ejeenv[np.newaxis, :], yn3[np.newaxis, :]) 
+cc4 = MCI.coef_corr(finenv[np.newaxis, :], yn4[np.newaxis, :]) 
+print("""Coeficientes de correlacion
+Inicial = %.4f
+Adaptacion = %.4f
+Ejercicio = %.4f
+Final = %.4f""" %(cc1, cc2, cc3, cc4))
